@@ -23,7 +23,7 @@
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/github-gist.min.css" />
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/agate.min.css" />
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -157,6 +157,41 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/03/linux-%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6/">linux-字符设备驱动框架</a>
+
+      <a href="/2020/05/03/linux-%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6/" class="index-excerpt">
+        
+        
+          
+        
+        <div>linux 字符设备基本框架实现功能
+自动申请设备号   
+自动创建设备节点       
+
+
+#include &lt;linux/init.h&gt;     
+#include &lt;linux/module.h&gt;    
+#include &lt;linux/cdev.h&gt;    
+#include &lt;linux/fs.h&gt;    
+#include &lt;li</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-03
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a class="index-header" href="/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">常见问题</a>
 
       <a href="/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" class="index-excerpt">
@@ -165,28 +200,16 @@
           
         
         <div>
-title: 常见问题date: 2020-05-02 06:35:51tags: 问题
+title: 常见问题date: 2020-05-02 09:51:26tags: 问题
 
 常见问题
 win10防火墙把exe怎么办？  
-
-
-可以按照这个教程对防火墙进行设置。
-
-
+            可以按照这个教程对防火墙进行设置。
+          
 360会提示软件有病毒怎么办？  
-
-
-目前本软件仍然会被360误判，可以按照这个教程，把exe加入到白名单中。
-
-
-软件支持Mac电脑吗？
-
-
-目前是没有Mac版本的，未来将考虑开发一个这个版本。
-
-
-购买账号后</div>
+            目前本软件仍然会被360误判，可以按照这个教程，把exe加入到白名单中。
+          
+软件支持Mac电脑吗</div>
       </a>
 
       <div class="index-btm post-metas">
@@ -252,19 +275,17 @@ win10防火墙把exe怎么办？
           
         
         <div>问题：
-在WIN10中,系统自带的防火墙可能会自动删除exe文件，该如何解决这个问题呢？     
-
+            在WIN10中,系统自带的防火墙可能会自动删除exe文件，该如何解决这个问题呢？  
+             
 解决办法：
-思路：在win10安全中心中设置文件夹或文件排除项，避免被误杀。     
-
+            思路：在win10安全中心中设置文件夹或文件排除项，避免被误杀。     
+           
 操作步骤：
 
 打开 Windows Defender     
 
 2. 点击左下角齿轮图标     
-3. 找到“病毒和威胁防护”设置      
-4. 添加文件所在目录排除项     
-5. 找到exe，并</div>
+3. 找到“病毒</div>
       </a>
 
       <div class="index-btm post-metas">
