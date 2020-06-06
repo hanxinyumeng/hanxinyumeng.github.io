@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>出现闪退解决办法</title>
+    <link href="/2020/06/06/%E5%87%BA%E7%8E%B0%E9%97%AA%E9%80%80%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+    <url>/2020/06/06/%E5%87%BA%E7%8E%B0%E9%97%AA%E9%80%80%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<h1 id="雨梦OCR出现打不开，或者闪退问题如何解？"><a href="#雨梦OCR出现打不开，或者闪退问题如何解？" class="headerlink" title="雨梦OCR出现打不开，或者闪退问题如何解？"></a>雨梦OCR出现打不开，或者闪退问题如何解？</h1><h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note note-primary">            <p>在有些电脑上，进行某些设置后偶尔会出现打不开，闪退问题（目前来看是快捷键冲突导致的）。解决办法如下：</p>          </div>   <h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><ul><li><p>找到本软件的配置文件夹<code>C:\ProgramData\STE</code>把其删除即可。</p><p><img src="https://img.alicdn.com/imgextra/i1/1839819974/O1CN01DzSw8q2NY8xstqwPb_!!1839819974.png" srcset="/img/loading.gif" alt=""></p></li><li><p>如果找不到这个文件夹，请查看右边教程（<a href="https://jingyan.baidu.com/article/acf728fd2853fef8e410a37f.html" target="_blank" rel="noopener">win10教程</a>，<a href="https://jingyan.baidu.com/article/da1091fbc6c7d2027849d628.html" target="_blank" rel="noopener">win7教程</a>）显示一下隐藏文件夹。</p></li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>雨梦OCR百度云下载</title>
     <link href="/2020/06/06/%E9%9B%A8%E6%A2%A6OCR%E7%99%BE%E5%BA%A6%E4%BA%91%E4%B8%8B%E8%BD%BD/"/>
     <url>/2020/06/06/%E9%9B%A8%E6%A2%A6OCR%E7%99%BE%E5%BA%A6%E4%BA%91%E4%B8%8B%E8%BD%BD/</url>
