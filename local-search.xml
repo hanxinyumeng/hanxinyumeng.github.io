@@ -12,6 +12,12 @@
     
     
     
+    <tags>
+      
+      <tag>read</tag>
+      
+    </tags>
+    
   </entry>
   
   
@@ -47,9 +53,15 @@
     <link href="/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
     <url>/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
     
-    <content type="html"><![CDATA[<hr><p>title: 常见问题<br>date: 2020-05-02 09:51:26<br>tags: 问题</p><hr><h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><ol><li>win10防火墙把exe删除了怎么办？  <div class="note note-success">            <p>可以按照<a href="/2020/05/02/被防火墙删除了怎么办？/">这个教程</a>对防火墙进行设置。</p>          </div></li><li>360会提示软件有病毒怎么办？  <div class="note note-success">            <p>目前本软件仍然会被360误判，可以按照<a href="/2020/05/02/添加到360白名单/">这个教程</a>，把exe加入到白名单中。</p>          </div></li><li>软件支持Mac电脑吗？<div class="note note-success">            <p>目前是没有Mac版本的，未来将考虑开发一个这个版本。</p>          </div></li><li>购买账号后，有使用次数的限制吗？<div class="note note-success">            <p>我们对激活后的账号是不做使用次数的限制的，但是由于软件默认使用的是开发者自己的百度ocr密钥，所以是不保证单日具体的使用次数。如果你对ocr次数需求较大，建议申请免费的百度ocr密钥，每个密钥单日有五万次免费次数。</p>          </div></li><li>软件打开出现“网络连接失败”的警告是为什么？<div class="note note-success">            <p>这种情况基本都出现在“V3.795”这个版本上，因为这个版本在19年11月份已经停止使用，所以会出现这个警告。下载最新版使用就可以了。</p>          </div></li><li>绑定电脑后，电脑坏了，需要更换电脑怎么办？<div class="note note-success">            <p>本软件是支持有限次解除绑定电脑的，请在微信公众号”编程客栈”中回复“解绑”查看具体教程。</p>          </div></li></ol>]]></content>
+    <content type="html"><![CDATA[<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><ol><li>win10防火墙把exe删除了怎么办？  <div class="note note-success">            <p>可以按照<a href="/2020/05/02/被防火墙删除了怎么办？/">这个教程</a>对防火墙进行设置。</p>          </div></li><li>360会提示软件有病毒怎么办？  <div class="note note-success">            <p>目前本软件仍然会被360误判，可以按照<a href="/2020/05/02/添加到360白名单/">这个教程</a>，把exe加入到白名单中。</p>          </div></li><li>软件支持Mac电脑吗？<div class="note note-success">            <p>目前是没有Mac版本的，未来将考虑开发一个这个版本。</p>          </div></li><li>购买账号后，有使用次数的限制吗？<div class="note note-success">            <p>我们对激活后的账号是不做使用次数的限制的，但是由于软件默认使用的是开发者自己的百度ocr密钥，所以是不保证单日具体的使用次数。如果你对ocr次数需求较大，建议申请免费的百度ocr密钥，每个密钥单日有五万次免费次数。</p>          </div></li><li>软件打开出现“网络连接失败”的警告是为什么？<div class="note note-success">            <p>这种情况基本都出现在“V3.795”这个版本上，因为这个版本在19年11月份已经停止使用，所以会出现这个警告。下载最新版使用就可以了。</p>          </div></li><li>绑定电脑后，电脑坏了，需要更换电脑怎么办？<div class="note note-success">            <p>本软件是支持有限次解除绑定电脑的，请在微信公众号”编程客栈”中回复“解绑”查看具体教程。</p>          </div></li></ol>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>问题</tag>
+      
+    </tags>
     
   </entry>
   
