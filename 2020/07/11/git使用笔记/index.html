@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    955 字
+                    1k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    11
+                    12
                      分钟
                   </span>
                 
@@ -220,7 +220,18 @@ git apply patch_name    //在当前工作区应用补丁</code></pre><ul>
 <li>打补丁时经常会遇见冲突的问题，所以可以在应用补丁的时候先试用<code>git apply --check patch_name</code>检查一下，如果没有任何输出，说明可以顺利试用这个path。如果有冲突，也可以先使用<code>git apply patch_name</code>然后再去相应冲突文件解冲突，解冲突后再提交。</li>
 </ul>
 <h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><pre><code>* 使用git log 查看commit id
-* 使用 git  reset --hard    加commit id       </code></pre><h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
+* 使用 git  reset --hard    加commit id       </code></pre><h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h3><ul>
+<li><p>git fetch 与git pull 最大的不同是： git pull 拉下代码后会与 当前分支进行合并，而git fetch 不会进行合并。</p>
+<p>git pull 等价于以下两步:</p>
+<ol>
+<li><p>经命令中的 pull 换成 fetch, 执行之…</p>
+</li>
+<li><p>git merge FETCH_HEAD</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h3><ul>
 <li>git pull :将服务器代码拉取到本地分支，不会覆盖改动的代码（只有当服务器与本地同时改动同一部分的代码时才会提示冲突）。</li>
 </ul>
 <ul>
