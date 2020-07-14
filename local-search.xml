@@ -23,19 +23,6 @@
   
   
   <entry>
-    <title>百度云下载链接</title>
-    <link href="/2020/06/06/%E9%9B%A8%E6%A2%A6OCR%E7%99%BE%E5%BA%A6%E4%BA%91%E4%B8%8B%E8%BD%BD/"/>
-    <url>/2020/06/06/%E9%9B%A8%E6%A2%A6OCR%E7%99%BE%E5%BA%A6%E4%BA%91%E4%B8%8B%E8%BD%BD/</url>
-    
-    <content type="html"><![CDATA[<h1 id="百度云下载链接"><a href="#百度云下载链接" class="headerlink" title="百度云下载链接"></a>百度云下载链接</h1><ul><li><a href="https://pan.baidu.com/s/1IRCUjxmBJ_ndnNB1nsAYeQ" target="_blank" rel="noopener">最新版3.92下载</a>     提取码：bmt5</li><li><a href="https://pan.baidu.com/s/1ZPH_h-xXXUfGRZmVjqE32A" target="_blank" rel="noopener">旧版本3.8各版本下载</a>     提取码：6fxn</li></ul>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>linux-字符设备驱动框架</title>
     <link href="/2020/05/03/linux-%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6/"/>
     <url>/2020/05/03/linux-%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A1%86%E6%9E%B6/</url>
@@ -43,89 +30,6 @@
     <content type="html"><![CDATA[<h1 id="linux-字符设备基本框架"><a href="#linux-字符设备基本框架" class="headerlink" title="linux 字符设备基本框架"></a>linux 字符设备基本框架</h1><h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><ul><li>自动申请设备号   </li><li>自动创建设备节点       </li></ul><pre><code>#include &lt;linux/init.h&gt;     #include &lt;linux/module.h&gt;    #include &lt;linux/cdev.h&gt;    #include &lt;linux/fs.h&gt;    #include &lt;linux/device.h&gt;    dev_t devno;    //设备号，高12为为主设备号， 低20位为次设备号static const unsigned int baseminor=0;   //次设备号起始static const unsigned int dev_count=3;    //设备个数static char *demo_name=&quot;demo_dev&quot;;         // 设备名称static struct cdev *demo_cdev;             //cdev 结构体指针static struct class* demo_class;           //class 结构体指针static int demo_open (struct inode *inode, struct file *file){    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);    return 0;}static ssize_t demo_write (struct file *file, const char __user *user, size_t size, loff_t *loff_t){    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);    return 0;}static int demo_release (struct inode *inode, struct file *file){    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);    return 0;}//Linux使用file_operations结构访问驱动程序的函数，这个结构的每一个成员的名字都对应着一个调用//将驱动程序操作连接到设备编号struct file_operations fops={    .owner=THIS_MODULE,    .open=demo_open,    .write=demo_write,    .release=demo_release,};// 每个函数的的输入输出信息都可以使用source insight 在linux 源码中找到static int __init demo_init(void){    int ret;     //0. 让内核分配给我们一个尚未使用的主设备号    ret=alloc_chrdev_region(&amp;devno,baseminor,dev_count,demo_name);    // 错误判断    if (ret&lt;0){        printk(KERN_INFO &quot;alloc_chrdev_region  failed------\n&quot;);        goto err1;    }    printk(KERN_INFO&quot;major=%d\n&quot;,MAJOR(devno));  //打印出申请的主设备号    //1. 申请cdev 结构体内存    demo_cdev=cdev_alloc();    if(NULL==demo_cdev){        printk(KERN_INFO&quot;demo_cdev  failed   --\n&quot;);        goto err2;    }    //2. 对cdev 结构体 进行初始化    cdev_init(demo_cdev,&amp;fops);    //3. 将cdev结构体加入到系统当中    ret=cdev_add(demo_cdev,devno,dev_count);    if (ret&lt;0){        printk(KERN_INFO&quot;cdev_add  failed   --\n&quot;);        goto err2;    }    //一个struct class结构体类型变量对应一个类，内核同时提供了class_create(…)函数，可以用它来创建  一个类，这个类存放于sysfs下面，    demo_class=class_create(THIS_MODULE,demo_name);    if(IS_ERR(demo_class)){        printk(KERN_INFO&quot;class_create failed --\n&quot;);        goto err3;    }    //调用device_create(…)函数来在/dev目录下创建相应的设备节点    device_create(demo_class,NULL,devno,NULL,demo_name);    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);    return 0;err3:    cdev_del(demo_cdev);err2:    unregister_chrdev_region(devno,dev_count);err1:    return ret;}static void __exit demo_exit(void){    class_destroy(demo_class);    device_destroy(demo_class,devno);    cdev_del(demo_cdev);    unregister_chrdev_region(devno,dev_count);    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);}module_init(demo_init);module_exit(demo_exit);MODULE_LICENSE(&quot;GPL&quot;); //描述模块的许可证</code></pre><h2 id="编译驱动模块"><a href="#编译驱动模块" class="headerlink" title="编译驱动模块"></a>编译驱动模块</h2><p>Makefile 文件如下    </p><pre><code class="makefile">KDIR=/home/qiu/linux2.6.35-source/linux-2.6.35.3   <span class="comment">#内核路径</span><span class="section">all:</span>    make -C <span class="variable">$(KDIR)</span> M=`pwd`  modules<span class="section">clean:</span>    make -C <span class="variable">$(KDIR)</span> M=`pwd` modules clean    rm -f modules.orderobj-m+=led_drv1.o        <span class="comment">#obj-m +=xxx.o意思是该模块不会编译到zImage</span></code></pre><p>在该目录下使用make命令完成对 文件的编译    </p><h2 id="驱动测试代码"><a href="#驱动测试代码" class="headerlink" title="驱动测试代码"></a>驱动测试代码</h2><pre><code class="c"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span><span class="function"></span>{    <span class="keyword">int</span> fd;      <span class="comment">//声明设备描述符</span>    <span class="keyword">int</span> val = <span class="number">1</span>;  <span class="comment">//随便定义变量传入到</span>    fd = <span class="built_in">open</span>(<span class="string">"/dev/xxx"</span>,  O_RDWR);  <span class="comment">//根据路径打开设备</span>    <span class="keyword">if</span>(fd &lt; <span class="number">0</span>)          <span class="comment">//打开失败</span>            <span class="built_in">printf</span>(<span class="string">"can't open\n"</span>);      <span class="built_in">write</span>(fd, &amp;val, <span class="number">4</span>);  <span class="comment">//根据文件描述符调用write</span>    <span class="keyword">return</span> <span class="number">0</span>;}</code></pre><hr><p>字符设备驱动这一部分还是学了很久的，算是自己linux驱动的入门吧，Makefile这一部分忘的差不多了，接下来补一补，接下来学习更多驱动相关的内容。</p>]]></content>
     
     
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>常见问题</title>
-    <link href="/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/"/>
-    <url>/2020/05/02/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</url>
-    
-    <content type="html"><![CDATA[<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><ol><li><p>win10防火墙把exe删除了怎么办？  </p><div class="note note-success">            <p>可以按照<a href="/2020/05/02/被防火墙删除了怎么办？/">这个教程</a>对防火墙进行设置。</p>          </div></li><li><p>360会提示软件有病毒怎么办？  </p><div class="note note-success">            <p>目前本软件仍然会被360误判，可以按照<a href="/2020/05/02/添加到360白名单/">这个教程</a>，把exe加入到白名单中。</p>          </div></li><li><p>软件支持Mac电脑吗？</p><div class="note note-success">            <p>目前是没有Mac版本的，未来将考虑开发一个这个版本。</p>          </div></li><li><p>购买账号后，有使用次数的限制吗？</p><div class="note note-success">            <p>我们对激活后的账号是不做使用次数的限制的，但是由于软件默认使用的是开发者自己的百度ocr密钥，所以是不保证单日具体的使用次数。如果你对ocr次数需求较大，建议申请免费的百度ocr密钥，每个密钥单日有五万次免费次数。</p>          </div></li><li><p>软件打开出现“网络连接失败”的警告是为什么？</p><div class="note note-success">            <p>这种情况基本都出现在“V3.795”这个版本上，因为这个版本在19年11月份已经停止使用，所以会出现这个警告。下载最新版使用就可以了。</p>          </div></li><li><p>绑定电脑后，电脑坏了，需要更换电脑怎么办？</p><div class="note note-success">            <p>本软件是支持有限次解除绑定电脑的，请在微信公众号”编程客栈”中回复“解绑”查看具体教程。</p>          </div></li><li><p>软件出现闪退解决办法？</p><div class="note note-success">            <p><a href="https://hanxinyumeng.github.io/2020/01/06/%E5%87%BA%E7%8E%B0%E9%97%AA%E9%80%80%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">点击查看</a></p>          </div></li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>问题</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>添加到360白名单</title>
-    <link href="/2020/05/02/%E6%B7%BB%E5%8A%A0%E5%88%B0360%E7%99%BD%E5%90%8D%E5%8D%95/"/>
-    <url>/2020/05/02/%E6%B7%BB%E5%8A%A0%E5%88%B0360%E7%99%BD%E5%90%8D%E5%8D%95/</url>
-    
-    <content type="html"><![CDATA[<h2 id="在某些电脑上会出现360误判的情况"><a href="#在某些电脑上会出现360误判的情况" class="headerlink" title="在某些电脑上会出现360误判的情况"></a>在某些电脑上会出现360误判的情况</h2><blockquote><p>解决思路:把exe文件添加至白名单中      </p></blockquote><p><strong>添加白名单步骤：</strong>    </p><ol><li>打开360        </li></ol><p><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN013d9g302NY8xU6bcYr_!!1839819974.jpg" srcset="/img/loading.gif" alt=""><br>2. 然后选择木马查杀，在木马查杀这个界面下,点击信任区      </p><p><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN01CcPXuy2NY8xTGG8Sm_!!1839819974.png" srcset="/img/loading.gif" alt="">     </p><ol start="3"><li>在弹出的信任区窗口中点击添加信任文件        </li></ol><p><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01cEjTJN2NY8xPTuxJD_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>4. 选择exe文件,并点击打开      </p><p><img src="https://img.alicdn.com/imgextra/i1/1839819974/O1CN01tLbRZX2NY8xWGKC4k_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>5. 勾选按文件路径信任，这样以后更新也不需要重新添加了，然后点击确定。      </p><p><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN0182VLav2NY8xTpzqPl_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>6. 这样就添加成功了</p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>被防火墙删除了怎么办？</title>
-    <link href="/2020/05/02/%E8%A2%AB%E9%98%B2%E7%81%AB%E5%A2%99%E5%88%A0%E9%99%A4%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F/"/>
-    <url>/2020/05/02/%E8%A2%AB%E9%98%B2%E7%81%AB%E5%A2%99%E5%88%A0%E9%99%A4%E4%BA%86%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F/</url>
-    
-    <content type="html"><![CDATA[<h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note note-primary">            <p>在WIN10中,系统自带的防火墙可能会自动删除exe文件，该如何解决这个问题呢？  </p>          </div>   <h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><div class="note note-primary">            <p>思路：在win10安全中心中设置文件夹或文件排除项，避免被误杀。     </p>          </div> <p><strong>操作步骤：</strong></p><ol><li>打开 Windows Defender     </li></ol><p><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN015FcXfX2NY8xToBBvk_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>2. 点击左下角齿轮图标     </p><p><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01ayRmiN2NY8xRmtJuK_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>3. 找到“病毒和威胁防护”设置      </p><p><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN01zlGWUD2NY8xTEaHMb_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>4. 添加文件所在目录排除项     </p><p><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN0136vvbH2NY8xSIe7RK_!!1839819974.png" srcset="/img/loading.gif" alt=""><br>5. 找到exe，并添加进去     </p><p><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN010lDQyd2NY8xRiOv2K_!!1839819974.jpg" srcset="/img/loading.gif" alt=""><br>6. 如果还是会自动删除,请把实时保护关了试一下：     </p><blockquote><p>打开设置&gt;&gt;更新和安全&gt;&gt;windows安全中心&gt;&gt;病毒和威胁防护&gt;&gt;病毒和威胁防护设置（管理设置）&gt;&gt;关闭实时保护   </p></blockquote><hr><p>参考文章： <a href="https://blog.csdn.net/hongweigg/article/details/80059765" target="_blank" rel="noopener">https://blog.csdn.net/hongweigg/article/details/80059765</a></p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>雨梦OCR文字提取使用教程</title>
-    <link href="/2020/05/01/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
-    <url>/2020/05/01/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
-    
-    <content type="html"><![CDATA[<h1 id="雨梦OCR使用教程"><a href="#雨梦OCR使用教程" class="headerlink" title="雨梦OCR使用教程"></a>雨梦OCR使用教程</h1><h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><ul><li>截图提取文字 （提取到的文字会自动复制到粘贴板）  </li><li>拖拽提取文字 （可批量拖拽图片）</li><li>导入图片提取文字</li><li>贴图</li><li>截图功能，可以对图片进行修改保存</li><li>导出文本到word中或txt中</li><li>翻译功能，支持百度、腾讯和谷歌三种翻译接口，翻译方式有如下两种：   <ul><li>通过截图/导入图片等方式提取文字后，自动对文本进行翻译。    </li><li>通过Ctrl+c 复制文字后，自动提取文字并进行翻译(此功能会自动对多行进行合并)。    </li></ul></li><li>截图提取表格，并可导出表格。     </li></ul><h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol><li>到<a href="http://hanxinyumeng.cn" target="_blank" rel="noopener">官网</a>点击立即下载即可下载最新版软件。   </li><li>对下载得到的zip文件进行解压。</li><li>双击文件夹中的exe文件即可打开软件，软件界面如下：<br><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01A0mYls2NY8wbJoY9F_!!1839819974.jpg" srcset="/img/loading.gif" alt="软件主图">         </li></ol><h2 id="文字提取"><a href="#文字提取" class="headerlink" title="文字提取"></a>文字提取</h2><h3 id="截图提取演示："><a href="#截图提取演示：" class="headerlink" title="截图提取演示："></a>截图提取演示：</h3><p><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN01o47X2I2NY8wgBLxrr_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字演示GIF">      </p><h3 id="拖拽提取演示："><a href="#拖拽提取演示：" class="headerlink" title="拖拽提取演示："></a>拖拽提取演示：</h3><ul><li><p><strong>拖拽图片到软件中，即可对其进行文字提取，也可以同时选多个图片进行拖拽</strong><br><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN018lvBfY2NY8xWFVAnA_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字演示GIF">       </p><h3 id="文本提取说明："><a href="#文本提取说明：" class="headerlink" title="文本提取说明："></a>文本提取说明：</h3></li><li><p>调出截图提取文字的方法有如下几种：</p><ol><li>点击软件主界面的截图按钮。</li><li>使用截图提取文字快捷键，3.94版本默认为Alt+Z（以前的版本默认为F4），可以在设置界面自定义此快捷键。</li><li>左键单击电脑托盘图标</li></ol></li><li><p>文字提取成功后会自动复制到粘贴板。</p></li><li><p>软件默认使用中文标点，可以在设置更改为英文标点。</p></li><li><p>默认提取的语言是中英文，可以在设置中对语言进行更改。</p></li><li><p>可以在设置中对字体，大小，对齐方式进行调整。</p></li><li><p>可以对是否合并多行文本，是否多次提取结果叠加等进行设置。      </p><h3 id="OCR接口说明："><a href="#OCR接口说明：" class="headerlink" title="OCR接口说明："></a>OCR接口说明：</h3><p>目前V3.94版本具有四个OCR接口，接口具体信息如下：<br><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN011hBrfw2NY8wcwniJy_!!1839819974.jpg" srcset="/img/loading.gif" alt="OCR接口说明表格">    </p></li><li><p><a href="http://www.hanxinyumeng.cn/post/baidu-OCR-application-course" target="_blank" rel="noopener">百度(个人账号)申请教程</a>    </p></li><li><p><a href="http://www.hanxinyumeng.cn/post/sogou-OCR-application-course" target="_blank" rel="noopener">搜狗(个人账号)申请教程</a>        </p></li></ul><h2 id="贴图"><a href="#贴图" class="headerlink" title="贴图"></a>贴图</h2><ul><li>什么是贴图：贴图功能可以通过截图，把得到的图片放置在桌面的任意位置，对于做笔记，临时备忘等非常实用。</li><li>贴图默认快捷键Alt+Q,通过快捷键或右键托盘图标便可呼出此功能。<br>演示如下：<img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01SJ07KD2NY8xR5IlAi_!!1839819974.gif" srcset="/img/loading.gif" alt="贴图"></li></ul><h2 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h2><ul><li>可以像QQ截图一样对图片进行截取、修改和保存。</li><li>调出方法：    <ol><li>鼠标滚轮键单击软件托盘图标。    </li><li>使用快捷键，默认为Alt+X, 也可在设置中对其进行修改。        </li></ol></li></ul><h2 id="竖版文字提取使用说明"><a href="#竖版文字提取使用说明" class="headerlink" title="竖版文字提取使用说明"></a>竖版文字提取使用说明</h2><p>目前只有搜狗(个人账号)接口有竖版文字识别的功能，功能演示如下：<br><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01HQ45mx2NY8wZqAswr_!!1839819974.gif" srcset="/img/loading.gif" alt="竖版文字提取GIF"> </p><h2 id="翻译功能使用说明"><a href="#翻译功能使用说明" class="headerlink" title="翻译功能使用说明"></a>翻译功能使用说明</h2><p>目前翻译接口有百度、腾讯和谷歌，翻译功能主要有如下两种使用方法：    </p><ol><li>通过截图或导入图片后对得到的文本进行翻译，可以设置为自动翻译。   </li><li>使用Ctrl+c复制文本后进行翻译。（Ctrl+c复制文本后，软件会自动获取文本，并进行多行合并后翻译）    <h3 id="截图翻译演示"><a href="#截图翻译演示" class="headerlink" title="截图翻译演示"></a>截图翻译演示</h3><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01APYl3w2NY8wgBohHJ_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字翻译演示GIF">    <h3 id="粘贴板翻译演示"><a href="#粘贴板翻译演示" class="headerlink" title="粘贴板翻译演示"></a>粘贴板翻译演示</h3><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01sOgOq12NY8wZrpnt8_!!1839819974.gif" srcset="/img/loading.gif" alt="df">   </li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>雨梦OCR</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>出现闪退解决办法</title>
-    <link href="/2020/01/06/%E5%87%BA%E7%8E%B0%E9%97%AA%E9%80%80%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
-    <url>/2020/01/06/%E5%87%BA%E7%8E%B0%E9%97%AA%E9%80%80%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</url>
-    
-    <content type="html"><![CDATA[<h1 id="雨梦OCR出现打不开，或者闪退问题如何解？"><a href="#雨梦OCR出现打不开，或者闪退问题如何解？" class="headerlink" title="雨梦OCR出现打不开，或者闪退问题如何解？"></a>雨梦OCR出现打不开，或者闪退问题如何解？</h1><h3 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h3><div class="note note-primary">            <p>在有些电脑上，进行某些设置后偶尔会出现打不开，闪退问题（目前来看是快捷键冲突导致的）。解决办法如下：</p>          </div>   <h3 id="解决办法："><a href="#解决办法：" class="headerlink" title="解决办法："></a>解决办法：</h3><ul><li><p>找到本软件的配置文件夹<code>C:\ProgramData\STE</code>把其删除即可。</p><p><img src="https://img.alicdn.com/imgextra/i1/1839819974/O1CN01DzSw8q2NY8xstqwPb_!!1839819974.png" srcset="/img/loading.gif" alt=""></p></li><li><p>如果找不到这个文件夹，请查看右边教程（<a href="https://jingyan.baidu.com/article/acf728fd2853fef8e410a37f.html" target="_blank" rel="noopener">win10教程</a>，<a href="https://jingyan.baidu.com/article/da1091fbc6c7d2027849d628.html" target="_blank" rel="noopener">win7教程</a>）显示一下隐藏文件夹。</p></li></ul>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>read</tag>
-      
-    </tags>
     
   </entry>
   
