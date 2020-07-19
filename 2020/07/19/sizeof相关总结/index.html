@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    493 字
+                    481 字
                   </span>
                 
 
@@ -188,17 +188,20 @@
 <li><p>sizeof存在的价值？<br>主要是在不同平台下各种数据类型所占的内存字节数不仅相同（譬如int在32位系统中为4字节，在16位系统中为2字节，在64位系统为8字节）。所以程序中需要使用sizeof来判断当前变量/数据类型在当前环境下所占几个字节。</p>
 </li>
 <li><p>举个栗子</p>
-<p>  #include &lt;stdio.h&gt;<br>  int main()<br>  { </p>
-<pre><code>char t[]=&quot;hello&quot;;
-printf(&quot;sizeof(t)=%d\n&quot;,sizeof(t)); //打印为6
-printf(&quot;sizeof(t[0])=%d\n&quot;,sizeof(t[0]));//打印为1
-printf(&quot;strlen(t)=%d\n&quot;,strlen(t));//打印为5，不算最后的\0
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>
+<span class="hljs-function"></span>&#123; 
+	<span class="hljs-keyword">char</span> t[]=<span class="hljs-string">"hello"</span>;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"sizeof(t)=%d\n"</span>,<span class="hljs-keyword">sizeof</span>(t)); <span class="hljs-comment">//打印为6</span>
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"sizeof(t[0])=%d\n"</span>,<span class="hljs-keyword">sizeof</span>(t[<span class="hljs-number">0</span>]));<span class="hljs-comment">//打印为1</span>
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"strlen(t)=%d\n"</span>,<span class="hljs-built_in">strlen</span>(t));<span class="hljs-comment">//打印为5，不算最后的\0</span>
 
-char *p=t;
-printf(&quot;sizeof(p)=%d\n&quot;,sizeof(p)); //打印4 ,相当于sizeof(char *)
-printf(&quot;sizeof(*p)=%d\n&quot;,sizeof(*p));//打印1 ，*p指向的是char类型，相当于sizeof（char）
-printf(&quot;strlen(p)=%d\n&quot;,strlen(p));//打印为5，不算最后的\0，相当于是strlen(t)
-return 0;</code></pre><p>  }     </p>
+	<span class="hljs-keyword">char</span> *p=t;
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"sizeof(p)=%d\n"</span>,<span class="hljs-keyword">sizeof</span>(p)); <span class="hljs-comment">//打印4 ,相当于sizeof(char *)</span>
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"sizeof(*p)=%d\n"</span>,<span class="hljs-keyword">sizeof</span>(*p));<span class="hljs-comment">//打印1 ，*p指向的是char类型，相当于sizeof（char）</span>
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"strlen(p)=%d\n"</span>,<span class="hljs-built_in">strlen</span>(p));<span class="hljs-comment">//打印为5，不算最后的\0，相当于是strlen(t)</span>
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
 </li>
 <li><p>干货</p>
 </li>
@@ -214,7 +217,7 @@ return 0;</code></pre><p>  }     </p>
 </li>
 <li><p>函数形参是数组时，实际传递的不是整个数组，而是数组的首地址，相当于传递的是指针</p>
 <p>举例 :</p>
-<pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
    
    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>])</span></span>
 <span class="hljs-function">   </span>&#123;
@@ -225,7 +228,7 @@ return 0;</code></pre><p>  }     </p>
     <span class="hljs-keyword">int</span> t[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;
     func(t);
     <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-   &#125;</code></pre></li>
+   &#125;</code></pre></div></li>
 </ul>
 
             </article>
@@ -242,6 +245,12 @@ return 0;</code></pre><p>  }     </p>
                 <div class="post-prevnext row">
                   <div class="post-prev col-6">
                     
+                    
+                      <a href="/2020/07/19/const%E6%8C%87%E9%92%88/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">const指针</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </div>
                   <div class="post-next col-6">

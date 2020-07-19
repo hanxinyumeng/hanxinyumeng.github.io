@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    819 字
+                    817 字
                   </span>
                 
 
@@ -183,146 +183,151 @@
             
             <article class="markdown-body">
               <h1 id="linux-字符设备基本框架"><a href="#linux-字符设备基本框架" class="headerlink" title="linux 字符设备基本框架"></a>linux 字符设备基本框架</h1><h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><ul>
-<li>自动申请设备号   </li>
-<li>自动创建设备节点       </li>
-</ul>
-<pre><code>
-#include &lt;linux/init.h&gt;     
-#include &lt;linux/module.h&gt;    
-#include &lt;linux/cdev.h&gt;    
-#include &lt;linux/fs.h&gt;    
-#include &lt;linux/device.h&gt;    
+<li><p>自动申请设备号   </p>
+</li>
+<li><p>自动创建设备节点       </p>
+<p>​        </p>
+<div class="hljs"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/init.h&gt;     </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/module.h&gt;    </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/cdev.h&gt;    </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/fs.h&gt;    </span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;linux/device.h&gt;    </span></span>
 
-dev_t devno;    //设备号，高12为为主设备号， 低20位为次设备号
+<span class="hljs-keyword">dev_t</span> devno;    <span class="hljs-comment">//设备号，高12为为主设备号， 低20位为次设备号</span>
 
-static const unsigned int baseminor=0;   //次设备号起始
-static const unsigned int dev_count=3;    //设备个数
-static char *demo_name=&quot;demo_dev&quot;;         // 设备名称
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> baseminor=<span class="hljs-number">0</span>;   <span class="hljs-comment">//次设备号起始</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">int</span> dev_count=<span class="hljs-number">3</span>;    <span class="hljs-comment">//设备个数</span>
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">char</span> *demo_name=<span class="hljs-string">"demo_dev"</span>;         <span class="hljs-comment">// 设备名称</span>
 
-static struct cdev *demo_cdev;             //cdev 结构体指针
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cdev</span> *<span class="hljs-title">demo_cdev</span>;</span>             <span class="hljs-comment">//cdev 结构体指针</span>
 
-static struct class* demo_class;           //class 结构体指针
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">class</span>* <span class="hljs-title">demo_class</span>;</span>           <span class="hljs-comment">//class 结构体指针</span>
 
-static int demo_open (struct inode *inode, struct file *file)
-{
-    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);
-    return 0;
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">demo_open</span> <span class="hljs-params">(struct inode *inode, struct file *file)</span></span>
+<span class="hljs-function"></span>&#123;
+	printk(KERN_INFO <span class="hljs-string">"---%s---%s---%d---\n"</span>,__FILE__,__func__,__LINE__);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 
-}
+&#125;
 
-static ssize_t demo_write (struct file *file, const char __user *user, size_t size, loff_t *loff_t)
-{
-    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);
-    return 0;
-}
-
-
-static int demo_release (struct inode *inode, struct file *file)
-{
-    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);
-    return 0;
-
-}
-
-//Linux使用file_operations结构访问驱动程序的函数，这个结构的每一个成员的名字都对应着一个调用
-//将驱动程序操作连接到设备编号
-struct file_operations fops={
-    .owner=THIS_MODULE,
-    .open=demo_open,
-    .write=demo_write,
-    .release=demo_release,
-};
-
-// 每个函数的的输入输出信息都可以使用source insight 在linux 源码中找到
-static int __init demo_init(void)
-{
-    int ret; 
-    //0. 让内核分配给我们一个尚未使用的主设备号
-    ret=alloc_chrdev_region(&amp;devno,baseminor,dev_count,demo_name);
-    // 错误判断
-    if (ret&lt;0){
-        printk(KERN_INFO &quot;alloc_chrdev_region  failed------\n&quot;);
-        goto err1;
-    }
-
-    printk(KERN_INFO&quot;major=%d\n&quot;,MAJOR(devno));  //打印出申请的主设备号
-
-    //1. 申请cdev 结构体内存
-    demo_cdev=cdev_alloc();
-
-    if(NULL==demo_cdev){
-        printk(KERN_INFO&quot;demo_cdev  failed   --\n&quot;);
-        goto err2;
-    }
-    //2. 对cdev 结构体 进行初始化
-    cdev_init(demo_cdev,&amp;fops);
-
-    //3. 将cdev结构体加入到系统当中
-    ret=cdev_add(demo_cdev,devno,dev_count);
-    if (ret&lt;0){
-        printk(KERN_INFO&quot;cdev_add  failed   --\n&quot;);
-        goto err2;
-
-    }
-    //一个struct class结构体类型变量对应一个类，内核同时提供了class_create(…)函数，可以用它来创建  一个类，这个类存放于sysfs下面，
-    demo_class=class_create(THIS_MODULE,demo_name);
-    if(IS_ERR(demo_class)){
-        printk(KERN_INFO&quot;class_create failed --\n&quot;);
-        goto err3;
-    }
-    //调用device_create(…)函数来在/dev目录下创建相应的设备节点
-    device_create(demo_class,NULL,devno,NULL,demo_name);
-
-    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);
-    return 0;
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">ssize_t</span> <span class="hljs-title">demo_write</span> <span class="hljs-params">(struct file *file, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> __user *user, <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span>, <span class="hljs-keyword">loff_t</span> *<span class="hljs-keyword">loff_t</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+	printk(KERN_INFO <span class="hljs-string">"---%s---%s---%d---\n"</span>,__FILE__,__func__,__LINE__);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;
 
 
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">demo_release</span> <span class="hljs-params">(struct inode *inode, struct file *file)</span></span>
+<span class="hljs-function"></span>&#123;
+	printk(KERN_INFO <span class="hljs-string">"---%s---%s---%d---\n"</span>,__FILE__,__func__,__LINE__);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+&#125;
+
+<span class="hljs-comment">//Linux使用file_operations结构访问驱动程序的函数，这个结构的每一个成员的名字都对应着一个调用</span>
+<span class="hljs-comment">//将驱动程序操作连接到设备编号</span>
+<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file_operations</span> <span class="hljs-title">fops</span>=&#123;</span>
+	.owner=THIS_MODULE,
+	.<span class="hljs-built_in">open</span>=demo_open,
+	.<span class="hljs-built_in">write</span>=demo_write,
+	.<span class="hljs-built_in">release</span>=demo_release,
+&#125;;
+
+<span class="hljs-comment">// 每个函数的的输入输出信息都可以使用source insight 在linux 源码中找到</span>
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __init <span class="hljs-title">demo_init</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+	<span class="hljs-keyword">int</span> ret; 
+	<span class="hljs-comment">//0. 让内核分配给我们一个尚未使用的主设备号</span>
+	ret=alloc_chrdev_region(&amp;devno,baseminor,dev_count,demo_name);
+	<span class="hljs-comment">// 错误判断</span>
+	<span class="hljs-keyword">if</span> (ret&lt;<span class="hljs-number">0</span>)&#123;
+		printk(KERN_INFO <span class="hljs-string">"alloc_chrdev_region  failed------\n"</span>);
+		<span class="hljs-keyword">goto</span> err1;
+	&#125;
+	
+	printk(KERN_INFO<span class="hljs-string">"major=%d\n"</span>,MAJOR(devno));  <span class="hljs-comment">//打印出申请的主设备号</span>
+
+	<span class="hljs-comment">//1. 申请cdev 结构体内存</span>
+	demo_cdev=cdev_alloc();
+
+	<span class="hljs-keyword">if</span>(<span class="hljs-literal">NULL</span>==demo_cdev)&#123;
+		printk(KERN_INFO<span class="hljs-string">"demo_cdev  failed   --\n"</span>);
+		<span class="hljs-keyword">goto</span> err2;
+	&#125;
+	<span class="hljs-comment">//2. 对cdev 结构体 进行初始化</span>
+	cdev_init(demo_cdev,&amp;fops);
+
+	<span class="hljs-comment">//3. 将cdev结构体加入到系统当中</span>
+	ret=cdev_add(demo_cdev,devno,dev_count);
+	<span class="hljs-keyword">if</span> (ret&lt;<span class="hljs-number">0</span>)&#123;
+		printk(KERN_INFO<span class="hljs-string">"cdev_add  failed   --\n"</span>);
+		<span class="hljs-keyword">goto</span> err2;
+
+	&#125;
+    <span class="hljs-comment">//一个struct class结构体类型变量对应一个类，内核同时提供了class_create(…)函数，可以用它来创建  一个类，这个类存放于sysfs下面，</span>
+	demo_class=class_create(THIS_MODULE,demo_name);
+	<span class="hljs-keyword">if</span>(IS_ERR(demo_class))&#123;
+		printk(KERN_INFO<span class="hljs-string">"class_create failed --\n"</span>);
+		<span class="hljs-keyword">goto</span> err3;
+	&#125;
+    <span class="hljs-comment">//调用device_create(…)函数来在/dev目录下创建相应的设备节点</span>
+	device_create(demo_class,<span class="hljs-literal">NULL</span>,devno,<span class="hljs-literal">NULL</span>,demo_name);
+
+	printk(KERN_INFO <span class="hljs-string">"---%s---%s---%d---\n"</span>,__FILE__,__func__,__LINE__);
+	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+
+	
 err3:
-    cdev_del(demo_cdev);
-
+	cdev_del(demo_cdev);
+	
 err2:
-    unregister_chrdev_region(devno,dev_count);
+	unregister_chrdev_region(devno,dev_count);
 err1:
-    return ret;
-}
+	<span class="hljs-keyword">return</span> ret;
+&#125;
 
-static void __exit demo_exit(void)
-{
-    class_destroy(demo_class);
-    device_destroy(demo_class,devno);
-    cdev_del(demo_cdev);
-    unregister_chrdev_region(devno,dev_count);
-    printk(KERN_INFO &quot;---%s---%s---%d---\n&quot;,__FILE__,__func__,__LINE__);
-}
+<span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> __exit <span class="hljs-title">demo_exit</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>
+<span class="hljs-function"></span>&#123;
+	class_destroy(demo_class);
+	device_destroy(demo_class,devno);
+	cdev_del(demo_cdev);
+	unregister_chrdev_region(devno,dev_count);
+	printk(KERN_INFO <span class="hljs-string">"---%s---%s---%d---\n"</span>,__FILE__,__func__,__LINE__);
+&#125;
 
 module_init(demo_init);
 module_exit(demo_exit);
-MODULE_LICENSE(&quot;GPL&quot;); //描述模块的许可证</code></pre><h2 id="编译驱动模块"><a href="#编译驱动模块" class="headerlink" title="编译驱动模块"></a>编译驱动模块</h2><p>Makefile 文件如下    </p>
-<pre><code class="makefile">KDIR=/home/qiu/linux2.6.35-source/linux-2.6.35.3   <span class="comment">#内核路径</span>
+MODULE_LICENSE(<span class="hljs-string">"GPL"</span>); <span class="hljs-comment">//描述模块的许可证</span></code></pre></div>
 
-<span class="section">all:</span>
-    make -C <span class="variable">$(KDIR)</span> M=`pwd`  modules
-<span class="section">clean:</span>
-    make -C <span class="variable">$(KDIR)</span> M=`pwd` modules clean
-    rm -f modules.order
+</li>
+</ul>
+<h2 id="编译驱动模块"><a href="#编译驱动模块" class="headerlink" title="编译驱动模块"></a>编译驱动模块</h2><p>Makefile 文件如下    </p>
+<div class="hljs"><pre><code class="hljs makefile">KDIR=/home/qiu/linux2.6.35-source/linux-2.6.35.3   <span class="hljs-comment">#内核路径</span>
 
-obj-m+=led_drv1.o        <span class="comment">#obj-m +=xxx.o意思是该模块不会编译到zImage</span></code></pre>
+<span class="hljs-section">all:</span>
+	make -C <span class="hljs-variable">$(KDIR)</span> M=`pwd`  modules
+<span class="hljs-section">clean:</span>
+	make -C <span class="hljs-variable">$(KDIR)</span> M=`pwd` modules clean
+	rm -f modules.order
+	
+obj-m+=led_drv1.o        <span class="hljs-comment">#obj-m +=xxx.o意思是该模块不会编译到zImage</span></code></pre></div>
 <p>在该目录下使用make命令完成对 文件的编译    </p>
-<h2 id="驱动测试代码"><a href="#驱动测试代码" class="headerlink" title="驱动测试代码"></a>驱动测试代码</h2><pre><code class="c"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span>
-<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span>
-<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span>
-<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span>
+<h2 id="驱动测试代码"><a href="#驱动测试代码" class="headerlink" title="驱动测试代码"></a>驱动测试代码</h2><div class="hljs"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/types.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;sys/stat.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;fcntl.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>
 
-<span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv)</span></span>
-<span class="function"></span>{
-    <span class="keyword">int</span> fd;      <span class="comment">//声明设备描述符</span>
-    <span class="keyword">int</span> val = <span class="number">1</span>;  <span class="comment">//随便定义变量传入到</span>
-    fd = <span class="built_in">open</span>(<span class="string">"/dev/xxx"</span>,  O_RDWR);  <span class="comment">//根据路径打开设备</span>
-    <span class="keyword">if</span>(fd &lt; <span class="number">0</span>)          <span class="comment">//打开失败</span>
-            <span class="built_in">printf</span>(<span class="string">"can't open\n"</span>);  
-    <span class="built_in">write</span>(fd, &amp;val, <span class="number">4</span>);  <span class="comment">//根据文件描述符调用write</span>
-    <span class="keyword">return</span> <span class="number">0</span>;
-}</code></pre>
+<span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">int</span> argc, <span class="hljs-keyword">char</span> **argv)</span></span>
+<span class="hljs-function"></span>&#123;
+    <span class="hljs-keyword">int</span> fd;      <span class="hljs-comment">//声明设备描述符</span>
+    <span class="hljs-keyword">int</span> val = <span class="hljs-number">1</span>;  <span class="hljs-comment">//随便定义变量传入到</span>
+    fd = <span class="hljs-built_in">open</span>(<span class="hljs-string">"/dev/xxx"</span>,  O_RDWR);  <span class="hljs-comment">//根据路径打开设备</span>
+    <span class="hljs-keyword">if</span>(fd &lt; <span class="hljs-number">0</span>)          <span class="hljs-comment">//打开失败</span>
+            <span class="hljs-built_in">printf</span>(<span class="hljs-string">"can't open\n"</span>);  
+    <span class="hljs-built_in">write</span>(fd, &amp;val, <span class="hljs-number">4</span>);  <span class="hljs-comment">//根据文件描述符调用write</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
 <hr>
 <p>字符设备驱动这一部分还是学了很久的，算是自己linux驱动的入门吧，Makefile这一部分忘的差不多了，接下来补一补，接下来学习更多驱动相关的内容。</p>
 

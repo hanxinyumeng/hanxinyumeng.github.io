@@ -143,7 +143,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    1k 字
+                    1.1k 字
                   </span>
                 
 
@@ -153,7 +153,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    12
+                    13
                      分钟
                   </span>
                 
@@ -186,41 +186,60 @@
 <p>其实很早以前就知道git了，但是之前真的只是知道一些皮毛。现在想想确实挺后悔当时没有好好学git的。由于工作的最近频繁使用git进行代码的版本控制，学习到了不少东西，在此记录一下。</p>
 </blockquote>
 <h3 id="工作区域"><a href="#工作区域" class="headerlink" title="工作区域"></a>工作区域</h3><p><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01PRbuoy2NY8yDaVbWF_!!1839819974.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="初始化Git并上传到Github"><a href="#初始化Git并上传到Github" class="headerlink" title="初始化Git并上传到Github"></a>初始化Git并上传到Github</h3><pre><code>git init
-git add *    //也可以使用git add -u 添加已经跟踪的文件，或者git add 指定特定目录。
-git commit -m &quot;first commit&quot; // 使用 git commit -s &quot;多行commit&quot;
-git remote add origin https://github.com/hanxinyumeng/myNotes.git
-git push -u origin master</code></pre><h3 id="保存账号和密码"><a href="#保存账号和密码" class="headerlink" title="保存账号和密码"></a>保存账号和密码</h3><pre><code>git config --global credential.helper store
-git pull /git push (这里需要输入用户名和密码，以后就不用啦)</code></pre><h3 id="添加新的更改获取新的文件"><a href="#添加新的更改获取新的文件" class="headerlink" title="添加新的更改获取新的文件"></a>添加新的更改获取新的文件</h3><pre><code>git add *
+<h3 id="初始化Git并上传到Github"><a href="#初始化Git并上传到Github" class="headerlink" title="初始化Git并上传到Github"></a>初始化Git并上传到Github</h3><div class="hljs"><pre><code class="hljs plain">git init
+git add *    &#x2F;&#x2F;也可以使用git add -u 添加已经跟踪的文件，或者git add 指定特定目录。
+git commit -m &quot;first commit&quot; &#x2F;&#x2F; 使用 git commit -s &quot;多行commit&quot;
+git remote add origin https:&#x2F;&#x2F;github.com&#x2F;hanxinyumeng&#x2F;myNotes.git
+git push -u origin master</code></pre></div>
+<h3 id="保存账号和密码"><a href="#保存账号和密码" class="headerlink" title="保存账号和密码"></a>保存账号和密码</h3><div class="hljs"><pre><code class="hljs plain">git config --global credential.helper store
+git pull &#x2F;git push (这里需要输入用户名和密码，以后就不用啦)</code></pre></div>
+<h3 id="添加新的更改获取新的文件"><a href="#添加新的更改获取新的文件" class="headerlink" title="添加新的更改获取新的文件"></a>添加新的更改获取新的文件</h3><div class="hljs"><pre><code class="hljs plain">git add *
 git commit -m &quot;备注&quot;    
-git push  //git push --set-upstream origin test  推送到远程分支，并且跟踪远程分支origin test</code></pre><h3 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h3><pre><code>git branch new_branch_name
-git checkout -b new_branch_name  //创建分支，并切换到新分支上</code></pre><h3 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支"></a>查看分支</h3><pre><code>git branch -a //显示所有分支
-git branch -vva //显示所有分支及详细信息
-git branch -u origin test  //为当前分支设置远程分支</code></pre><h3 id="切换分支及相关其他操作"><a href="#切换分支及相关其他操作" class="headerlink" title="切换分支及相关其他操作"></a>切换分支及相关其他操作</h3><pre><code>git checkout branch_name              //切换到指定分支
-git checkout branch_name  file_name //从其他分支拉取文件到当前分支
-git checkout -b new_branch_name  -t  origin test  //创建当前分支并跟踪到远程分支origin test</code></pre><h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><pre><code>git log       //显示所有的log信息
-git log -p -2 //显示最近两次的log信息，及diff内容
-git log --author=“author”    // 显示某个作者的log内容
-git show commit_id           //显示某次提交的具体修改
-git blame -L 222,227 file_name  //查看文件file_name中222行到227行代码提交的日志</code></pre><h3 id="删除文件及分支"><a href="#删除文件及分支" class="headerlink" title="删除文件及分支"></a>删除文件及分支</h3><ul>
+git push  &#x2F;&#x2F;git push --set-upstream origin test  推送到远程分支，并且跟踪远程分支origin test</code></pre></div>
+<h3 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h3><div class="hljs"><pre><code class="hljs plain">git branch new_branch_name
+git checkout -b new_branch_name  &#x2F;&#x2F;创建分支，并切换到新分支上</code></pre></div>
+
+<h3 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支"></a>查看分支</h3><div class="hljs"><pre><code class="hljs plain">git branch -a &#x2F;&#x2F;显示所有分支
+git branch -vva &#x2F;&#x2F;显示所有分支及详细信息
+git branch -u origin test  &#x2F;&#x2F;为当前分支设置远程分支</code></pre></div>
+
+<h3 id="切换分支及相关其他操作"><a href="#切换分支及相关其他操作" class="headerlink" title="切换分支及相关其他操作"></a>切换分支及相关其他操作</h3><div class="hljs"><pre><code class="hljs plain">git checkout branch_name              &#x2F;&#x2F;切换到指定分支
+git checkout branch_name  file_name &#x2F;&#x2F;从其他分支拉取文件到当前分支
+git checkout -b new_branch_name  -t  origin test  &#x2F;&#x2F;创建当前分支并跟踪到远程分支origin test</code></pre></div>
+
+<h3 id="查看日志"><a href="#查看日志" class="headerlink" title="查看日志"></a>查看日志</h3><div class="hljs"><pre><code class="hljs plain">git log       &#x2F;&#x2F;显示所有的log信息
+git log -p -2 &#x2F;&#x2F;显示最近两次的log信息，及diff内容
+git log --author&#x3D;“author”    &#x2F;&#x2F; 显示某个作者的log内容
+git show commit_id           &#x2F;&#x2F;显示某次提交的具体修改
+git blame -L 222,227 file_name  &#x2F;&#x2F;查看文件file_name中222行到227行代码提交的日志</code></pre></div>
+
+<h3 id="删除文件及分支"><a href="#删除文件及分支" class="headerlink" title="删除文件及分支"></a>删除文件及分支</h3><ul>
 <li>删除文件:</li>
 </ul>
-<pre><code>git rm test.txt   //删除本地文件
-git rm folder_name -r -f //删除本地文件夹
-git commit -m &quot;delete file&quot;  //同步到分支
-git push origin test         //同步到远程分支</code></pre><ul>
+<div class="hljs"><pre><code class="hljs plain">git rm test.txt   &#x2F;&#x2F;删除本地文件
+git rm folder_name -r -f &#x2F;&#x2F;删除本地文件夹
+git commit -m &quot;delete file&quot;  &#x2F;&#x2F;同步到分支
+git push origin test         &#x2F;&#x2F;同步到远程分支</code></pre></div>
+<ul>
 <li>删除分支:</li>
 </ul>
-<pre><code>git branch -d branch_name // 删除本地分支branch_name
-git push origin  --delete branch_name // 删除远程branch_name分支</code></pre><h3 id="diff命令总结"><a href="#diff命令总结" class="headerlink" title="diff命令总结"></a>diff命令总结</h3><pre><code>git diff //比较工作目录和暂存区之间的差别
-git diff branch1_name  branch2_name //比较两个分支最新提交的区别
-git diff HEAD  //比较工作区与最新本地版本库之间的区别
-git diff commit_id  //比较工作区与指定的commit_id之间的区别</code></pre><h3 id="打补丁"><a href="#打补丁" class="headerlink" title="打补丁"></a>打补丁</h3><pre><code>git diff &gt; patch_name   // 将差别生成一个补丁文件
-git apply patch_name    //在当前工作区应用补丁</code></pre><ul>
+<div class="hljs"><pre><code class="hljs plain">git branch -d branch_name &#x2F;&#x2F; 删除本地分支branch_name
+git push origin  --delete branch_name &#x2F;&#x2F; 删除远程branch_name分支</code></pre></div>
+
+<h3 id="diff命令总结"><a href="#diff命令总结" class="headerlink" title="diff命令总结"></a>diff命令总结</h3><div class="hljs"><pre><code class="hljs plain">git diff &#x2F;&#x2F;比较工作目录和暂存区之间的差别
+git diff branch1_name  branch2_name &#x2F;&#x2F;比较两个分支最新提交的区别
+git diff HEAD  &#x2F;&#x2F;比较工作区与最新本地版本库之间的区别
+git diff commit_id  &#x2F;&#x2F;比较工作区与指定的commit_id之间的区别</code></pre></div>
+
+<h3 id="打补丁"><a href="#打补丁" class="headerlink" title="打补丁"></a>打补丁</h3><div class="hljs"><pre><code class="hljs plain">git diff &gt; patch_name   &#x2F;&#x2F; 将差别生成一个补丁文件
+git apply patch_name    &#x2F;&#x2F;在当前工作区应用补丁</code></pre></div>
+
+<ul>
 <li>打补丁时经常会遇见冲突的问题，所以可以在应用补丁的时候先试用<code>git apply --check patch_name</code>检查一下，如果没有任何输出，说明可以顺利试用这个path。如果有冲突，也可以先使用<code>git apply patch_name</code>然后再去相应冲突文件解冲突，解冲突后再提交。</li>
 </ul>
-<h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><pre><code>* 使用git log 查看commit id
-* 使用 git  reset --hard    加commit id       </code></pre><h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h3><ul>
+<h3 id="版本回退"><a href="#版本回退" class="headerlink" title="版本回退"></a>版本回退</h3><div class="hljs"><pre><code class="hljs plain">* 使用git log 查看commit id
+* 使用 git  reset --hard    加commit id</code></pre></div>
+<h3 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h3><ul>
 <li><p>git fetch 与git pull 最大的不同是： git pull 拉下代码后会与 当前分支进行合并，而git fetch 不会进行合并。</p>
 <p>git pull 等价于以下两步:</p>
 <ol>
