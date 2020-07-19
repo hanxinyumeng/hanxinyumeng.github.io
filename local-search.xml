@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>sizeof相关总结</title>
+    <link href="/2020/07/19/sizeof%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"/>
+    <url>/2020/07/19/sizeof%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</url>
+    
+    <content type="html"><![CDATA[<h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><ol><li><p>sizeof 是C语言中的一个运算符（主要sizeof不是函数，虽然用法很想函数），sizeof的作用是用来返回 （）里面的变量或者数据类型占用的内存字节数。</p></li><li><p>sizeof存在的价值？<br>主要是在不同平台下各种数据类型所占的内存字节数不仅相同（譬如int在32位系统中为4字节，在16位系统中为2字节，在64位系统为8字节）。所以程序中需要使用sizeof来判断当前变量/数据类型在当前环境下所占几个字节。</p></li><li><p>举个栗子</p><p>  #include &lt;stdio.h&gt;<br>  int main()<br>  { </p><pre><code>char t[]=&quot;hello&quot;;printf(&quot;sizeof(t)=%d\n&quot;,sizeof(t)); //打印为6printf(&quot;sizeof(t[0])=%d\n&quot;,sizeof(t[0]));//打印为1printf(&quot;strlen(t)=%d\n&quot;,strlen(t));//打印为5，不算最后的\0char *p=t;printf(&quot;sizeof(p)=%d\n&quot;,sizeof(p)); //打印4 ,相当于sizeof(char *)printf(&quot;sizeof(*p)=%d\n&quot;,sizeof(*p));//打印1 ，*p指向的是char类型，相当于sizeof（char）printf(&quot;strlen(p)=%d\n&quot;,strlen(p));//打印为5，不算最后的\0，相当于是strlen(t)return 0;</code></pre><p>  }     </p></li><li><p>干货</p></li></ol><ul><li><p><strong>32为系统中所有指针的长度都是4</strong>    </p></li><li><p><strong>strlen是一个c库函数，用于返回一个字符串的长度（注意字符串长度不计算末尾的’\0’）,strlen接收的参数一定是字符串（字符串特征是以’\0’为结尾）</strong></p></li><li><p><strong>sizeof测试一个变量本身和sizeof测试这个变量类型的结果是一样的</strong>     </p></li><li><p><strong>sizeof参数为数组名，计算的就是数组所占的内存大小，<code>int b[100]={0}; sizeof(b)的结果就是100*sizeof（int）</code></strong></p></li><li><p>函数形参是数组时，实际传递的不是整个数组，而是数组的首地址，相当于传递的是指针</p><p>举例 :</p><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span>      <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">func</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>])</span></span><span class="hljs-function">   </span>&#123;  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"sizeof(a)=%d\n"</span>,<span class="hljs-keyword">sizeof</span>(a));<span class="hljs-comment">// 结果等于sizeof(int)</span>   &#125;       <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><span class="hljs-function">   </span>&#123;     <span class="hljs-keyword">int</span> t[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">0</span>&#125;;    func(t);    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;   &#125;</code></pre></li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>git使用笔记</title>
     <link href="/2020/07/11/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/"/>
     <url>/2020/07/11/git%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/</url>
