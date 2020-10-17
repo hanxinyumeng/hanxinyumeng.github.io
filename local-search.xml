@@ -48,5 +48,24 @@
   
   
   
+  <entry>
+    <title>雨梦OCR文字提取V3.94 使用教程</title>
+    <link href="/2020/05/01/%E9%9B%A8%E6%A2%A6OCR%20V3.94%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/"/>
+    <url>/2020/05/01/%E9%9B%A8%E6%A2%A6OCR%20V3.94%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/</url>
+    
+    <content type="html"><![CDATA[<h1 id="雨梦OCR-V3-94使用教程"><a href="#雨梦OCR-V3-94使用教程" class="headerlink" title="雨梦OCR V3.94使用教程"></a>雨梦OCR V3.94使用教程</h1><h2 id="功能介绍"><a href="#功能介绍" class="headerlink" title="功能介绍"></a>功能介绍</h2><ul><li>截图提取文字 （提取到的文字会自动复制到粘贴板）  </li><li>拖拽提取文字 （可批量拖拽图片）</li><li>导入图片提取文字</li><li>贴图</li><li>截图功能，可以对图片进行修改保存</li><li>导出文本到word中或txt中</li><li>翻译功能，支持百度、腾讯和谷歌三种翻译接口，翻译方式有如下两种：   <ul><li>通过截图/导入图片等方式提取文字后，自动对文本进行翻译。    </li><li>通过Ctrl+c 复制文字后，自动提取文字并进行翻译(此功能会自动对多行进行合并)。    </li></ul></li><li>截图提取表格，并可导出表格。     </li></ul><h2 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h2><ol><li>到<a href="http://hanxinyumeng.cn" target="_blank" rel="noopener">官网</a>点击立即下载即可下载最新版软件。   </li><li>对下载得到的zip文件进行解压。</li><li>双击文件夹中的exe文件即可打开软件，软件界面如下：<br><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01A0mYls2NY8wbJoY9F_!!1839819974.jpg" srcset="/img/loading.gif" alt="软件主图">         </li></ol><h2 id="文字提取"><a href="#文字提取" class="headerlink" title="文字提取"></a>文字提取</h2><h3 id="截图提取演示："><a href="#截图提取演示：" class="headerlink" title="截图提取演示："></a>截图提取演示：</h3><p><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN01o47X2I2NY8wgBLxrr_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字演示GIF">      </p><h3 id="拖拽提取演示："><a href="#拖拽提取演示：" class="headerlink" title="拖拽提取演示："></a>拖拽提取演示：</h3><ul><li><p><strong>拖拽图片到软件中，即可对其进行文字提取，也可以同时选多个图片进行拖拽</strong><br><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN018lvBfY2NY8xWFVAnA_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字演示GIF">       </p><h3 id="文本提取说明："><a href="#文本提取说明：" class="headerlink" title="文本提取说明："></a>文本提取说明：</h3></li><li><p>调出截图提取文字的方法有如下几种：</p><ol><li>点击软件主界面的截图按钮。</li><li>使用截图提取文字快捷键，3.94版本默认为Alt+Z（以前的版本默认为F4），可以在设置界面自定义此快捷键。</li><li>左键单击电脑托盘图标</li></ol></li><li><p>文字提取成功后会自动复制到粘贴板。</p></li><li><p>软件默认使用中文标点，可以在设置更改为英文标点。</p></li><li><p>默认提取的语言是中英文，可以在设置中对语言进行更改。</p></li><li><p>可以在设置中对字体，大小，对齐方式进行调整。</p></li><li><p>可以对是否合并多行文本，是否多次提取结果叠加等进行设置。      </p><h3 id="OCR接口说明："><a href="#OCR接口说明：" class="headerlink" title="OCR接口说明："></a>OCR接口说明：</h3><p>目前V3.94版本具有四个OCR接口，接口具体信息如下：<br><img src="https://img.alicdn.com/imgextra/i4/1839819974/O1CN011hBrfw2NY8wcwniJy_!!1839819974.jpg" srcset="/img/loading.gif" alt="OCR接口说明表格">    </p></li></ul><ul><li><a href="http://www.hanxinyumeng.cn/post/baidu-OCR-application-course" target="_blank" rel="noopener">百度(个人账号)申请教程</a>    </li><li><a href="http://www.hanxinyumeng.cn/post/sogou-OCR-application-course" target="_blank" rel="noopener">搜狗(个人账号)申请教程</a>        </li></ul><h2 id="贴图"><a href="#贴图" class="headerlink" title="贴图"></a>贴图</h2><ul><li>什么是贴图：贴图功能可以通过截图，把得到的图片放置在桌面的任意位置，对于做笔记，临时备忘等非常实用。</li><li>贴图默认快捷键Alt+Q,通过快捷键或右键托盘图标便可呼出此功能。<br>演示如下：<img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01SJ07KD2NY8xR5IlAi_!!1839819974.gif" srcset="/img/loading.gif" alt="贴图"></li></ul><h2 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h2><ul><li><p>可以像QQ截图一样对图片进行截取、修改和保存。</p></li><li><p>调出方法：    </p><ol><li>鼠标滚轮键单击软件托盘图标。    </li><li>使用快捷键，默认为Alt+X, 也可在设置中对其进行修改。        </li></ol></li></ul><h2 id="竖版文字提取使用说明"><a href="#竖版文字提取使用说明" class="headerlink" title="竖版文字提取使用说明"></a>竖版文字提取使用说明</h2><p>目前只有搜狗(个人账号)接口有竖版文字识别的功能，功能演示如下：<br><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01HQ45mx2NY8wZqAswr_!!1839819974.gif" srcset="/img/loading.gif" alt="竖版文字提取GIF"> </p><h2 id="翻译功能使用说明"><a href="#翻译功能使用说明" class="headerlink" title="翻译功能使用说明"></a>翻译功能使用说明</h2><p>目前翻译接口有百度、腾讯和谷歌，翻译功能主要有如下两种使用方法：    </p><ol><li>通过截图或导入图片后对得到的文本进行翻译，可以设置为自动翻译。   </li><li>使用Ctrl+c复制文本后进行翻译。（Ctrl+c复制文本后，软件会自动获取文本，并进行多行合并后翻译）    <h3 id="截图翻译演示"><a href="#截图翻译演示" class="headerlink" title="截图翻译演示"></a>截图翻译演示</h3><img src="https://img.alicdn.com/imgextra/i3/1839819974/O1CN01APYl3w2NY8wgBohHJ_!!1839819974.gif" srcset="/img/loading.gif" alt="截图提取文字翻译演示GIF">    <h3 id="粘贴板翻译演示"><a href="#粘贴板翻译演示" class="headerlink" title="粘贴板翻译演示"></a>粘贴板翻译演示</h3><img src="https://img.alicdn.com/imgextra/i2/1839819974/O1CN01sOgOq12NY8wZrpnt8_!!1839819974.gif" srcset="/img/loading.gif" alt="df">   </li></ol>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>雨梦OCR</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
   
 </search>
